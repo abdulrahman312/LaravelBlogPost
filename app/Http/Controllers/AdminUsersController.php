@@ -8,6 +8,7 @@ use App\Http\Requests;
 
 use App\User;
 use App\Role;
+use App\Photo;
 
 class AdminUsersController extends Controller
 {
@@ -43,8 +44,26 @@ class AdminUsersController extends Controller
      */
     public function store(Requests\UsersRequest $request)
     {
-        User::create($request->all());
+        $input = $request->all();
 
+        if($file = $request->file('photo_id')){
+
+            $name = time() . $file->getClientOriginalName();
+
+            $file->move('images', $name);
+
+            $photo = Photo::create(['file' => $name]);
+
+            $input['photo_id'] = $photo->id;
+
+        }
+
+        $input['password'] = bcrypt($request->password);
+
+        User::create($input);
+
+//        User::create($request->all());
+//
         return redirect('admin/users');
     }
 

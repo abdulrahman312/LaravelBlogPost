@@ -70,21 +70,21 @@
             </div>
         </div>
 
-        <div class="form-group{{ $errors->has('file') ? ' has-error' : '' }}">
+        <div class="form-group{{ $errors->has('photo_id') ? ' has-error' : '' }}">
             <label class="control-label col-sm-2" for="file">File:</label>
             <div class="col-sm-10">
-                <input type="file" class="form-control" id="file" placeholder="Select File" name="file">
+                <input type="file" class="form-control" id="photo_id" placeholder="Select File" name="photo_id">
 
-                @if ($errors->has('file'))
+                @if ($errors->has('photo_id'))
                     <span class="help-block">
-                        <strong>{{ $errors->first('file') }}</strong>
+                        <strong>{{ $errors->first('photo_id') }}</strong>
                     </span>
                 @endif
             </div>
         </div>
 
         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-            <label class="control-label col-sm-2" for="password">Email:</label>
+            <label class="control-label col-sm-2" for="password">Password:</label>
             <div class="col-sm-10">
                 <input type="password" class="form-control" id="password" placeholder="Enter password" name="password">
 
