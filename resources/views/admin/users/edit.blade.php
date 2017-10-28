@@ -7,6 +7,7 @@
 
     <h1>Edit Users</h1>
 
+
     <div class="col-sm-3">
 
         <img src="{{ $user->photo ? $user->photo->file : '/images/nouser.png' }}"  class="img-responsive img-rounded">
@@ -117,10 +118,28 @@
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary">Edit User</button>
+                <button type="submit" class="btn btn-primary col-sm-6">Edit User</button>
+
             </div>
         </div>
     </form>
+        <form class="form-horizontal" method="post" action="{{ route('admin.users.destroy', $user->id) }}">
+            {{ csrf_field() }}
+
+            <input name="_method" type="hidden" value="DELETE">
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-danger col-sm-6">Delete User</button>
+
+                </div>
+            </div>
+
+
+
+        </form>
+
+
 
     </div>
 

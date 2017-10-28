@@ -2,6 +2,15 @@
 
 @section('content')
 
+
+
+    @if(Session::has('delete_user'))
+
+        <div class="alert alert-danger">
+            {{ session('delete_user') }}
+        </div>
+
+    @endif
     <h1>Users</h1>
     <table class="table">
        <thead>
