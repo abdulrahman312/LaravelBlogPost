@@ -94,7 +94,11 @@ class AdminPostsController extends Controller
      */
     public function edit($id)
     {
-        return view('admin.posts.edit');
+        $post = Post::findOrFail($id);
+
+        $categories = Category::all();
+
+        return view('admin.posts.edit', compact('post', 'categories'));
     }
 
     /**
@@ -106,7 +110,42 @@ class AdminPostsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $input = $request->all();
+
+        $post = Post::findOrFail($id);
+
+        if($file = $request->file('photo_id')){
+
+            $name = time() . $file->getClientOriginalName();
+
+            $file->move('images', $name);
+
+            if($post->photo_id == 0){
+
+                $photo = Photo::create(['file' => $name]);
+
+                $input['photo_id'] = $photo->id;
+
+            }
+            else{
+
+                unlink(public_path() . $post->photo->file);
+
+                Photo::whereId($post->photo_id)->update(['file' => $name]);
+
+                $input['photo_id'] = $post->photo_id;
+
+            }
+
+        }
+
+        Session::flash('post_edited', 'Post successfully edited');
+
+        $post->update($input);
+
+        return redirect('admin/posts');
+
     }
 
     /**
@@ -117,6 +156,16 @@ class AdminPostsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::findOrFail($id);
+
+        unlink(public_path() . $post->photo->file);
+
+        Photo::whereId($post->photo_id)->delete();
+
+        $post->delete();
+
+        Session::flash('post_deleted', 'Post successfully deleted');
+
+        return redirect('/admin/posts');
     }
 }
